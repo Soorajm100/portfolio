@@ -176,9 +176,9 @@ export default function Home() {
               {/* Web Development Card */}
               <div className={`${isDarkMode ? 'bg-slate-700/50' : 'bg-gray-50'} rounded-xl p-6 border-2 ${isDarkMode ? 'border-blue-400/30' : 'border-blue-300'} hover:border-blue-400 transition-all duration-300 hover:scale-105`}>
                 <div className="text-5xl mb-4">😎</div>
-                <h3 className={`text-xl font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Web Development</h3>
+                <h3 className={`text-xl font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Cloud</h3>
                 <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'} text-sm`}>
-                  React, Angular, Tailwind CSS, JavaScript
+                  AWS, S3, Lambda, Docker , CI/CD , AWS Secret Manager , Terraform , IAM , Automation ,Vulnerability  Reduction 
                 </p>
               </div>
             </div>
