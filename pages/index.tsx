@@ -191,7 +191,7 @@ export default function Home() {
               Sooraj Poojary
             </h1>
             <p className={`text-xl lg:text-2xl mb-4 bg-gradient-to-r ${isDarkMode ? 'from-cyan-400 to-blue-400' : 'from-orange-600 to-amber-600'} text-transparent bg-clip-text font-semibold`}>
-              Backend Engineer @ Carelon Global Solutions
+              Software Engineer @ Carelon Global Solutions
             </p>
             <p className={`text-base lg:text-lg ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
               Building high-performance backend systems, RESTful APIs, AI-powered applications, and cloud infrastructure that power enterprise applications at scale.
