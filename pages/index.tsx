@@ -144,7 +144,7 @@ export default function Home() {
           {/* Quick Info Below Avatar - Visible on Desktop */}
           <div className="hidden lg:block mt-8 text-center space-y-3">
             <p className={`font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'} text-xl`}>Sooraj Poojary</p>
-            <p className={`${isDarkMode ? 'text-cyan-400' : 'text-orange-600'} font-medium`}>Backend Engineer</p>
+            <p className={`${isDarkMode ? 'text-cyan-400' : 'text-orange-600'} font-medium`}>Software Engineer</p>
             <div className="flex items-center justify-center gap-6 mt-4">
               <a 
                 href="https://github.com/Soorajm100" 
