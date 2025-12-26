@@ -144,7 +144,7 @@ export default function Home() {
           {/* Quick Info Below Avatar - Visible on Desktop */}
           <div className="hidden lg:block mt-8 text-center space-y-3">
             <p className={`font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'} text-xl`}>Sooraj Poojary</p>
-            <p className={`${isDarkMode ? 'text-cyan-400' : 'text-orange-600'} font-medium`}>Software Engineer</p>
+            <p className={`${isDarkMode ? 'text-cyan-400' : 'text-orange-600'} font-medium`}>Backend Engineer</p>
             <div className="flex items-center justify-center gap-6 mt-4">
               <a 
                 href="https://github.com/Soorajm100" 
@@ -191,10 +191,10 @@ export default function Home() {
               Sooraj Poojary
             </h1>
             <p className={`text-xl lg:text-2xl mb-4 bg-gradient-to-r ${isDarkMode ? 'from-cyan-400 to-blue-400' : 'from-orange-600 to-amber-600'} text-transparent bg-clip-text font-semibold`}>
-              Software Engineer @ Carelon Global Solutions
+              Backend Engineer @ Carelon Global Solutions
             </p>
             <p className={`text-base lg:text-lg ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
-              Building scalable cloud systems, LLM-powered platforms, and intelligent dashboards that drive real impact.
+              Building high-performance backend systems, RESTful APIs, AI-powered applications, and cloud infrastructure that power enterprise applications at scale.
             </p>
           </div>
 
@@ -204,43 +204,52 @@ export default function Home() {
               Why hire me?
             </h2>
             <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-8 leading-relaxed`}>
-              Embarking on an enriching developer journey, I've traversed the realms of code, constantly expanding my skill set and embracing the challenges that come with crafting innovative solutions. From the initial lines of code to the intricate architecture of applications, every challenge met has been a stepping stone in my continuous evolution as a passionate and dedicated developer.
+              Specializing in backend architecture, cloud infrastructure, and AI-powered systems, I design and build scalable solutions that handle millions of requests. From optimizing database queries to implementing intelligent agentic workflows with LangChain and RAG pipelines, I focus on creating robust, production-ready solutions that deliver measurable performance improvements.
             </p>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Backend Card */}
+              {/* Backend & APIs Card */}
               <div className={`${isDarkMode ? 'bg-slate-700/50' : 'bg-gradient-to-br from-orange-50 to-red-50'} rounded-xl p-6 border-2 ${isDarkMode ? 'border-orange-400/30' : 'border-orange-300'} hover:border-orange-500 transition-all duration-300 hover:scale-105 shadow-md`}>
-                <div className="text-5xl mb-4">😎</div>
-                <h3 className={`text-xl font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Backend</h3>
+                <div className="text-5xl mb-4">⚡</div>
+                <h3 className={`text-xl font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Backend & APIs</h3>
                 <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-700'} text-sm`}>
-                  Node.JS, Express, Redux, MongoDB
+                  Node.js, Express, FastAPI, Python, RESTful APIs, WebSockets, Microservices
+                </p>
+              </div>
+
+              {/* AI & Agentic Systems Card */}
+              <div className={`${isDarkMode ? 'bg-slate-700/50' : 'bg-gradient-to-br from-purple-50 to-pink-50'} rounded-xl p-6 border-2 ${isDarkMode ? 'border-purple-400/30' : 'border-purple-300'} hover:border-purple-500 transition-all duration-300 hover:scale-105 shadow-md`}>
+                <div className="text-5xl mb-4">🤖</div>
+                <h3 className={`text-xl font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>AI & Agentic Systems</h3>
+                <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-700'} text-sm`}>
+                  LangChain, RAG Pipelines, FAISS, Vector Databases, NL to SQL, Intelligent Agents
+                </p>
+              </div>
+
+              {/* Database & Caching Card */}
+              <div className={`${isDarkMode ? 'bg-slate-700/50' : 'bg-gradient-to-br from-yellow-50 to-amber-50'} rounded-xl p-6 border-2 ${isDarkMode ? 'border-yellow-400/30' : 'border-yellow-400'} hover:border-yellow-500 transition-all duration-300 hover:scale-105 shadow-md`}>
+                <div className="text-5xl mb-4">🗄️</div>
+                <h3 className={`text-xl font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Database & Caching</h3>
+                <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-700'} text-sm`}>
+                  MySQL, MongoDB, Redis, Query Optimization, Indexing, Aggregation Pipelines
+                </p>
+              </div>
+
+              {/* Cloud & DevOps Card */}
+              <div className={`${isDarkMode ? 'bg-slate-700/50' : 'bg-gradient-to-br from-blue-50 to-cyan-50'} rounded-xl p-6 border-2 ${isDarkMode ? 'border-blue-400/30' : 'border-blue-400'} hover:border-blue-500 transition-all duration-300 hover:scale-105 shadow-md`}>
+                <div className="text-5xl mb-4">☁️</div>
+                <h3 className={`text-xl font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Cloud & DevOps</h3>
+                <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-700'} text-sm`}>
+                  AWS (EC2, Lambda, S3, IAM), Docker, Terraform, CI/CD, Infrastructure as Code
                 </p>
               </div>
 
               {/* Frontend Card */}
-              <div className={`${isDarkMode ? 'bg-slate-700/50' : 'bg-gradient-to-br from-yellow-50 to-amber-50'} rounded-xl p-6 border-2 ${isDarkMode ? 'border-yellow-400/30' : 'border-yellow-400'} hover:border-yellow-500 transition-all duration-300 hover:scale-105 shadow-md`}>
-                <div className="text-5xl mb-4">🤗</div>
+              <div className={`${isDarkMode ? 'bg-slate-700/50' : 'bg-gradient-to-br from-green-50 to-emerald-50'} rounded-xl p-6 border-2 ${isDarkMode ? 'border-green-400/30' : 'border-green-400'} hover:border-green-500 transition-all duration-300 hover:scale-105 shadow-md md:col-span-2 md:w-1/2 md:mx-auto`}>
+                <div className="text-5xl mb-4">🎨</div>
                 <h3 className={`text-xl font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Frontend</h3>
                 <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-700'} text-sm`}>
-                  React, Angular, Tailwind CSS, JavaScript
-                </p>
-              </div>
-
-              {/* Agentic Flow Development Card */}
-              <div className={`${isDarkMode ? 'bg-slate-700/50' : 'bg-gradient-to-br from-green-50 to-emerald-50'} rounded-xl p-6 border-2 ${isDarkMode ? 'border-green-400/30' : 'border-green-400'} hover:border-green-500 transition-all duration-300 hover:scale-105 shadow-md`}>
-                <div className="text-5xl mb-4">😊</div>
-                <h3 className={`text-xl font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Agentic Flow Development</h3>
-                <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-700'} text-sm`}>
-                  LangChain, VectorDB, Python, FastApi, SQL, Streamed Response
-                </p>
-              </div>
-
-              {/* Cloud Card */}
-              <div className={`${isDarkMode ? 'bg-slate-700/50' : 'bg-gradient-to-br from-blue-50 to-cyan-50'} rounded-xl p-6 border-2 ${isDarkMode ? 'border-blue-400/30' : 'border-blue-400'} hover:border-blue-500 transition-all duration-300 hover:scale-105 shadow-md`}>
-                <div className="text-5xl mb-4">☁️</div>
-                <h3 className={`text-xl font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Cloud</h3>
-                <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-700'} text-sm`}>
-                  AWS, S3, Lambda, Docker, CI/CD, Terraform, IAM, Automation
+                  React, Next.js, TypeScript, Tailwind CSS, Redux
                 </p>
               </div>
             </div>
