@@ -160,6 +160,7 @@ export default function PortfolioSection({ isDarkMode }: { isDarkMode: boolean }
           <motion.div 
             whileHover={{ scale: 1.03, y: -5 }}
             className={`p-6 rounded-2xl ${isDarkMode ? 'bg-gradient-to-br from-emerald-900/30 to-teal-900/30 border-emerald-500/30' : 'bg-gradient-to-br from-emerald-50 to-teal-50 border-emerald-300'} border backdrop-blur-md shadow-xl`}
+            onClick={() => window.open("https://medical-frontend-gamma-three.vercel.app/")}
           >
             <div className="text-4xl mb-3">🚑</div>
             <h3 className={`text-xl font-bold ${isDarkMode ? 'text-emerald-300' : 'text-emerald-700'}`}>Emergency Response System</h3>
