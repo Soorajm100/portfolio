@@ -136,7 +136,7 @@ export default function Portfolio() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.5 }}
         transition={{ duration: 0.9, delay }}
-        className="text-4xl md:text-6xl font-bold mb-12 text-center"
+        className={`text-4xl md:text-6xl font-bold mb-12 text-center ${isDarkMode ? 'text-white' : 'text-black'}`}
       >
         {children}
       </motion.h2>
@@ -406,7 +406,7 @@ export default function Portfolio() {
       <section id="about" className="py-24 sm:py-32">
         <div className="max-w-6xl mx-auto px-6">
           <SectionHeader>
-            <span className="text-white">
+            <span className={isDarkMode ? 'text-white' : 'text-black'}>
               About Me
             </span>
           </SectionHeader>
@@ -435,7 +435,7 @@ export default function Portfolio() {
       <section id="why-me" className={`py-24 sm:py-32 ${isDarkMode ? 'bg-gradient-to-b from-gray-900 to-black' : 'bg-gradient-to-b from-gray-50 to-white'}`}>
         <div className="max-w-6xl mx-auto px-6">
           <SectionHeader>
-            <span className="text-white">
+            <span className={isDarkMode ? 'text-white' : 'text-black'}>
               Why Hire Me?
             </span>
           </SectionHeader>
@@ -483,7 +483,7 @@ export default function Portfolio() {
       <section id="skills" className="py-24 sm:py-32">
         <div className="max-w-6xl mx-auto px-6">
           <SectionHeader>
-            <span className="text-white">
+            <span className={isDarkMode ? 'text-white' : 'text-black'}>
               Technical Skills
             </span>
           </SectionHeader>
@@ -532,7 +532,7 @@ export default function Portfolio() {
           <SectionHeader>
             <div className="flex items-center justify-center gap-4">
               <Zap className="w-12 h-12 text-yellow-500" />
-              <span className="text-white">
+              <span className={isDarkMode ? 'text-white' : 'text-black'}>
                 Experience
               </span>
             </div>
@@ -589,8 +589,8 @@ export default function Portfolio() {
         <div className="max-w-6xl mx-auto px-6">
           <SectionHeader>
             <div className="flex items-center justify-center gap-4">
-              <Brain className="w-12 h-12 text-purple-500" />
-              <span className="text-white">
+              <Brain className="w-12 h-12 text-blue-500" />
+              <span className={isDarkMode ? 'text-white' : 'text-black'}>
                 Featured Projects
               </span>
             </div>
@@ -643,7 +643,7 @@ export default function Portfolio() {
           <SectionHeader>
             <div className="flex items-center justify-center gap-4">
               <Trophy className="w-12 h-12 text-yellow-500" />
-              <span className="text-white">
+              <span className={isDarkMode ? 'text-white' : 'text-black'}>
                 Achievements & Awards
               </span>
             </div>
@@ -679,7 +679,7 @@ export default function Portfolio() {
             <div className="mt-16">
               <div className="flex items-center justify-center gap-3 mb-8">
                 <HeartHandshake className="w-8 h-8 text-pink-500" />
-                <h3 className="text-2xl sm:text-3xl font-bold text-white">
+                <h3 className={`text-2xl sm:text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>
                   Hobbies & Interests
                 </h3>
               </div>
@@ -707,7 +707,7 @@ export default function Portfolio() {
       <section id="certifications" className="py-24 sm:py-32">
         <div className="max-w-6xl mx-auto px-6">
           <SectionHeader>
-            <span className="text-white">
+            <span className={isDarkMode ? 'text-white' : 'text-black'}>
               Certifications
             </span>
           </SectionHeader>
@@ -762,7 +762,7 @@ export default function Portfolio() {
       <section id="contact" className={`py-24 sm:py-32 ${isDarkMode ? 'bg-gradient-to-b from-black to-gray-900' : 'bg-gradient-to-b from-white to-gray-50'}`}>
         <div className="max-w-6xl mx-auto px-6">
           <SectionHeader>
-            <span className="text-white">
+            <span className={isDarkMode ? 'text-white' : 'text-black'}>
               Let's Connect
             </span>
           </SectionHeader>
