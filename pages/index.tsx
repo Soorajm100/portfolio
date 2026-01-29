@@ -1,312 +1,833 @@
-import Scene from "@/components/Scene";
-import PortfolioSection from "@/components/PortfolioSection";
-import SocialLinks from "@/components/SocialLink";
-import { Menu, X, Download, Moon, Sun } from "lucide-react";
-import { useState, useEffect } from "react";
+"use client";
+import { useState, useEffect, useRef } from "react";
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
+import { 
+  Menu, 
+  X, 
+  Download, 
+  Moon, 
+  Sun, 
+  ChevronDown,
+  Github,
+  Linkedin,
+  Mail,
+  ExternalLink,
+  Award,
+  Code,
+  Database,
+  Cloud,
+  Cpu,
+  Palette,
+  Terminal,
+  Sparkles,
+  Zap,
+  Brain,
+  Trophy,
+  HeartHandshake,
+  Globe,
+  Code2,
+  FileText,
+  Rocket
+} from "lucide-react";
 
-export default function Home() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [hasWelcomed, setHasWelcomed] = useState(false);
+export default function Portfolio() {
   const [isDarkMode, setIsDarkMode] = useState(true);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [carouselIndex, setCarouselIndex] = useState(0);
+  
+  const { scrollYProgress } = useScroll();
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
+  const heroScale = useTransform(scrollYProgress, [0, 0.3], [1, 0.95]);
 
   useEffect(() => {
-    const handleFirstInteraction = () => {
-      if (!hasWelcomed && "speechSynthesis" in window) {
-        const utterance = new SpeechSynthesisUtterance(
-          "Welcome to Sooraj's portfolio"
-        );
-        utterance.rate = 0.9;
-        utterance.pitch = 1;
-        utterance.volume = 0.8;
-        window.speechSynthesis.cancel();
-        window.speechSynthesis.speak(utterance);
-        setHasWelcomed(true);
-        window.removeEventListener("click", handleFirstInteraction);
-      }
-    };
+    document.documentElement.classList.toggle("dark", isDarkMode);
+  }, [isDarkMode]);
 
-    window.addEventListener("click", handleFirstInteraction);
-    return () => {
-      window.removeEventListener("click", handleFirstInteraction);
-    };
-  }, [hasWelcomed]);
+  // Carousel auto-rotation
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCarouselIndex((i) => (i + 1) % carouselSlides.length);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, []);
 
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) element.scrollIntoView({ behavior: "smooth" });
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    element?.scrollIntoView({ behavior: "smooth", block: "start" });
     setIsMenuOpen(false);
   };
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    setIsMenuOpen(false);
+  const carouselSlides = [
+    {
+      title: "Reliable Engineering",
+      desc: "Scalable backend systems, monitoring, and performance optimization.",
+    },
+    {
+      title: "AI Integrations",
+      desc: "LLM-driven features, RAG pipelines and intelligent automation.",
+    },
+    {
+      title: "Cloud & DevOps",
+      desc: "Infrastructure as Code, CI/CD, and cost-optimized AWS deployments.",
+    },
+  ];
+
+  const skills = {
+    languages: ["Python", "Java", "JavaScript/TypeScript", "SQL"],
+    frameworks: ["React", "Next.js", "Spring Boot", "LangChain", "TensorFlow/PyTorch"],
+    cloud: ["AWS (EC2, S3, Lambda, Bedrock)", "Docker", "Git", "CI/CD"],
+    aiml: ["Large Language Models", "RAG", "Neural Networks", "Data Pipelines", "Prompt Engineering"],
+    other: ["System Design", "Algorithms & Data Structures", "Microservices"]
+  };
+
+  const projects = [
+    {
+      emoji: "🔥",
+      title: "ML Heat Transfer Prediction",
+      metric: "99.2% Accuracy",
+      desc: "Advanced neural network for thermal dynamics modeling with state-of-the-art performance in predicting heat transfer coefficients",
+      link: "https://research-project-frontend-five.vercel.app/",
+      gradient: "from-red-500 to-orange-500"
+    },
+    {
+      emoji: "🚑",
+      title: "Emergency Response System",
+      desc: "Real-time coordination platform for crisis management with live tracking, resource allocation, and intelligent routing algorithms",
+      link: "https://medical-frontend-gamma-three.vercel.app/",
+      gradient: "from-blue-500 to-cyan-500"
+    }
+  ];
+
+  const socialLinks = [
+    {
+      name: "GitHub",
+      url: "https://github.com/Soorajm100",
+      icon: <Github className="w-6 h-6" />,
+      color: "from-gray-700 to-gray-900"
+    },
+    {
+      name: "LinkedIn",
+      url: "https://www.linkedin.com/in/sooraj123/",
+      icon: <Linkedin className="w-6 h-6" />,
+      color: "from-blue-600 to-blue-700"
+    },
+    {
+      name: "LeetCode",
+      url: "https://leetcode.com/u/unknow2001/",
+      icon: <Code2 className="w-6 h-6" />,
+      color: "from-orange-500 to-orange-600"
+    },
+    {
+      name: "Email",
+      url: "mailto:sooraj.poojary@example.com",
+      icon: <Mail className="w-6 h-6" />,
+      color: "from-purple-600 to-purple-700"
+    }
+  ];
+
+  // Reusable Components
+  const SectionHeader = ({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) => {
+    return (
+      <motion.h2
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.5 }}
+        transition={{ duration: 0.9, delay }}
+        className="text-4xl md:text-6xl font-bold mb-12 text-center"
+      >
+        {children}
+      </motion.h2>
+    );
+  };
+
+  const FadeInSection = ({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) => {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.8, delay }}
+      >
+        {children}
+      </motion.div>
+    );
   };
 
   return (
-    <div className={`min-h-screen relative overflow-hidden ${isDarkMode ? 'bg-slate-900' : 'bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-100'}`}>
-      {/* Light Mode Animated Background Elements */}
-      {!isDarkMode && (
-        <>
-          {/* Floating Circles */}
-          <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-yellow-200 to-amber-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
-          <div className="absolute top-40 right-10 w-72 h-72 bg-gradient-to-br from-orange-200 to-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
-          <div className="absolute -bottom-8 left-20 w-72 h-72 bg-gradient-to-br from-purple-200 to-blue-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
-          
-          {/* Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-tr from-yellow-100/20 via-transparent to-orange-100/20"></div>
-        </>
-      )}
+    <div className={`min-h-screen transition-colors duration-500 ${isDarkMode ? 'bg-black text-white' : 'bg-white text-gray-900'}`}>
+      {/* Fixed Navigation */}
+      <motion.nav 
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-xl ${isDarkMode ? 'bg-black/90' : 'bg-white/90'} border-b ${isDarkMode ? 'border-white/10' : 'border-gray-200'}`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+          <motion.div 
+            whileHover={{ scale: 1.05 }}
+            className="text-2xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent cursor-pointer"
+            onClick={() => scrollToSection('hero')}
+          >
+            SP
+          </motion.div>
 
-      {/* Dark Mode Background Pattern */}
-      {isDarkMode && (
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 opacity-50"></div>
-      )}
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex items-center gap-8">
+            {["About", "Why Me", "Skills", "Experience", "Projects", "Achievements", "Certifications", "Contact"].map((item) => (
+              <button
+                key={item}
+                onClick={() => scrollToSection(item.toLowerCase().replace(" ", "-"))}
+                className={`text-sm font-medium transition-colors ${isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black'}`}
+              >
+                {item}
+              </button>
+            ))}
+          </div>
 
-      {/* Navbar */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 ${isDarkMode ? 'bg-slate-900/95' : 'bg-white/80'} backdrop-blur-md border-b ${isDarkMode ? 'border-white/10' : 'border-orange-200/50'} shadow-lg`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <button
-              onClick={scrollToTop}
-              className={`text-2xl font-bold bg-gradient-to-r ${isDarkMode ? 'from-cyan-400 to-blue-500' : 'from-orange-600 to-amber-600'} text-transparent bg-clip-text hover:scale-105 transition-transform`}
+          {/* Mobile + Theme Toggle */}
+          <div className="flex items-center gap-3">
+            <motion.button
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setIsDarkMode(!isDarkMode)}
+              className={`p-2 rounded-lg ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-gray-100'} transition-colors`}
             >
-              Portfolio
-            </button>
-
-            {/* Desktop Menu */}
-            <div className="hidden md:flex items-center space-x-8">
-              {["About", "Why hire me", "Resume", "Experience", "Achievements"].map((item) => (
-                <button
-                  key={item}
-                  onClick={() => scrollToSection(item.toLowerCase().replace(" ", "-"))}
-                  className={`${isDarkMode ? 'text-gray-300 hover:text-cyan-400' : 'text-gray-700 hover:text-orange-600'} transition-colors duration-300 relative group font-medium`}
-                >
-                  {item}
-                  <span className={`absolute bottom-0 left-0 w-0 h-0.5 ${isDarkMode ? 'bg-cyan-400' : 'bg-orange-600'} group-hover:w-full transition-all duration-300`}></span>
-                </button>
-              ))}
-              
-              {/* Dark/Light Mode Toggle */}
-              <button
-                onClick={() => setIsDarkMode(!isDarkMode)}
-                className={`p-2 rounded-lg ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-orange-100'} transition-colors`}
-                aria-label="Toggle theme"
-              >
-                {isDarkMode ? <Sun className="w-5 h-5 text-yellow-400" /> : <Moon className="w-5 h-5 text-slate-700" />}
-              </button>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <div className="flex items-center gap-2 md:hidden">
-              <button
-                onClick={() => setIsDarkMode(!isDarkMode)}
-                className={`p-2 rounded-lg ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-orange-100'} transition-colors`}
-                aria-label="Toggle theme"
-              >
-                {isDarkMode ? <Sun className="w-5 h-5 text-yellow-400" /> : <Moon className="w-5 h-5 text-slate-700" />}
-              </button>
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className={`p-2 rounded-lg ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-orange-100'} transition-colors`}
-                aria-label="Toggle menu"
-              >
-                {isMenuOpen ? <X className={isDarkMode ? 'text-white' : 'text-slate-900'} /> : <Menu className={isDarkMode ? 'text-white' : 'text-slate-900'} />}
-              </button>
-            </div>
-          </div>
-
-          {/* Mobile Menu */}
-          {isMenuOpen && (
-            <div className={`md:hidden py-4 ${isDarkMode ? 'bg-slate-800' : 'bg-white/95'} border-t ${isDarkMode ? 'border-white/10' : 'border-orange-200'}`}>
-              {["About", "Why hire me", "Resume", "Experience", "Skills", "Projects", "Achievements"].map((item) => (
-                <button
-                  key={item}
-                  onClick={() => scrollToSection(item.toLowerCase().replace(" ", "-"))}
-                  className={`block w-full text-left ${isDarkMode ? 'text-gray-300 hover:text-cyan-400' : 'text-gray-700 hover:text-orange-600'} text-lg py-2 transition-colors font-medium`}
-                >
-                  {item}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-      </nav>
-
-      {/* Main Split Layout */}
-      <div className="flex flex-col lg:flex-row pt-16 relative z-10">
-        {/* Left: Sticky 3D Avatar with Info - Stays fixed and centered */}
-        <div className="lg:fixed lg:left-0 lg:top-16 lg:bottom-0 lg:w-2/5 flex flex-col items-center justify-center p-4 lg:p-8">
-          {/* Avatar Container - Takes up most space */}
-          <div className="flex items-center justify-center w-full max-w-xl">
-            <Scene />
-          </div>
-          
-          {/* Quick Info Below Avatar - Visible on Desktop */}
-          <div className="hidden lg:block mt-8 text-center space-y-3">
-            <p className={`font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'} text-xl`}>Sooraj Poojary</p>
-            <p className={`${isDarkMode ? 'text-cyan-400' : 'text-orange-600'} font-medium`}>Software Engineer</p>
-            <div className="flex items-center justify-center gap-6 mt-4">
-              <a 
-                href="https://github.com/Soorajm100" 
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`${isDarkMode ? 'text-gray-400 hover:text-cyan-400' : 'text-gray-600 hover:text-orange-600'} transition-colors`}
-                aria-label="GitHub"
-              >
-                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                </svg>
-              </a>
-              <a 
-                href="https://www.linkedin.com/in/sooraj123/" 
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`${isDarkMode ? 'text-gray-400 hover:text-cyan-400' : 'text-gray-600 hover:text-orange-600'} transition-colors`}
-                aria-label="LinkedIn"
-              >
-                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                </svg>
-              </a>
-              <a 
-                href="https://leetcode.com/u/unknow2001/" 
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`${isDarkMode ? 'text-gray-400 hover:text-cyan-400' : 'text-gray-600 hover:text-orange-600'} transition-colors`}
-                aria-label="LeetCode"
-              >
-                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.938 5.938 0 0 0 1.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 8.063-.074l2.396-2.392c.54-.54.54-1.414.003-1.955a1.378 1.378 0 0 0-1.951-.003l-2.396 2.392a3.021 3.021 0 0 1-4.205.038l-.02-.019-4.276-4.193c-.652-.64-.972-1.469-.948-2.263a2.68 2.68 0 0 1 .066-.523 2.545 2.545 0 0 1 .619-1.164L9.13 8.114c1.058-1.134 3.204-1.27 4.43-.278l3.501 2.831c.593.48 1.461.387 1.94-.207a1.384 1.384 0 0 0-.207-1.943l-3.5-2.831c-2.365-1.89-5.832-1.61-7.872.633l-4.176 4.97a5.786 5.786 0 0 0-.984 1.88 5.786 5.786 0 0 0 .984 5.83l4.277 4.193.039.038c2.248 2.165 5.852 2.133 8.063-.074l2.396-2.392c.54-.54.54-1.414.003-1.955a1.378 1.378 0 0 0-1.951-.003l-2.396 2.392a3.021 3.021 0 0 1-4.205.038l-.02-.019-4.276-4.193c-.652-.64-.972-1.469-.948-2.263.024-.793.349-1.469 1.022-2.049l4.127-4.905a1.384 1.384 0 0 0-.103-1.951 1.382 1.382 0 0 0-1.951.103l-4.127 4.905a5.786 5.786 0 0 0-.984 1.88 5.786 5.786 0 0 0 .984 5.83l4.277 4.193.039.038c2.248 2.165 5.852 2.133 8.063-.074l2.396-2.392c.54-.54.54-1.414.003-1.955a1.378 1.378 0 0 0-1.951-.003l-2.396 2.392a3.021 3.021 0 0 1-4.205.038l-.02-.019-4.276-4.193c-.652-.64-.972-1.469-.948-2.263.024-.793.349-1.469 1.022-2.049l4.127-4.905c1.058-1.134 3.204-1.27 4.43-.278l3.501 2.831c.593.48 1.461.387 1.94-.207a1.384 1.384 0 0 0-.207-1.943l-3.5-2.831c-2.365-1.89-5.832-1.61-7.872.633l-4.176 4.97a5.786 5.786 0 0 0-.984 1.88z"/>
-                </svg>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        {/* Right: Scrollable Content - Offset for left panel */}
-        <div className="w-full lg:w-3/5 lg:ml-[40%] space-y-8 p-4 lg:p-8 min-h-screen">
-          {/* About */}
-          <div id="about" className={`${isDarkMode ? 'bg-slate-800/50' : 'bg-white/90'} backdrop-blur-sm rounded-2xl p-6 lg:p-8 border ${isDarkMode ? 'border-white/10' : 'border-orange-200'} shadow-xl`}>
-            <h1 className={`text-4xl lg:text-5xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-              Sooraj Poojary
-            </h1>
-            <p className={`text-xl lg:text-2xl mb-4 bg-gradient-to-r ${isDarkMode ? 'from-cyan-400 to-blue-400' : 'from-orange-600 to-amber-600'} text-transparent bg-clip-text font-semibold`}>
-              Software Engineer @ Carelon Global Solutions
-            </p>
-            <p className={`text-base lg:text-lg ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
-              Building high-performance backend systems, RESTful APIs, AI-powered applications, and cloud infrastructure that power enterprise applications at scale.
-            </p>
-          </div>
-
-          {/* Why Hire Me Section */}
-          <div id="why-hire-me" className={`${isDarkMode ? 'bg-slate-800/50' : 'bg-white/90'} backdrop-blur-sm rounded-2xl p-6 lg:p-8 border ${isDarkMode ? 'border-white/10' : 'border-orange-200'} shadow-xl`}>
-            <h2 className={`text-3xl font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-              Why hire me?
-            </h2>
-            <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-8 leading-relaxed`}>
-              Specializing in backend architecture, cloud infrastructure, and AI-powered systems, I design and build scalable solutions that handle millions of requests. From optimizing database queries to implementing intelligent agentic workflows with LangChain and RAG pipelines, I focus on creating robust, production-ready solutions that deliver measurable performance improvements.
-            </p>
+              {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+            </motion.button>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Backend & APIs Card */}
-              <div className={`${isDarkMode ? 'bg-slate-700/50' : 'bg-gradient-to-br from-orange-50 to-red-50'} rounded-xl p-6 border-2 ${isDarkMode ? 'border-orange-400/30' : 'border-orange-300'} hover:border-orange-500 transition-all duration-300 hover:scale-105 shadow-md`}>
-                <div className="text-5xl mb-4">⚡</div>
-                <h3 className={`text-xl font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Backend & APIs</h3>
-                <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-700'} text-sm`}>
-                  Node.js, Express, FastAPI, Python, RESTful APIs, WebSockets, Microservices
-                </p>
-              </div>
-
-              {/* AI & Agentic Systems Card */}
-              <div className={`${isDarkMode ? 'bg-slate-700/50' : 'bg-gradient-to-br from-purple-50 to-pink-50'} rounded-xl p-6 border-2 ${isDarkMode ? 'border-purple-400/30' : 'border-purple-300'} hover:border-purple-500 transition-all duration-300 hover:scale-105 shadow-md`}>
-                <div className="text-5xl mb-4">🤖</div>
-                <h3 className={`text-xl font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>AI & Agentic Systems</h3>
-                <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-700'} text-sm`}>
-                  LangChain, RAG Pipelines, FAISS, Vector Databases, NL to SQL, Intelligent Agents
-                </p>
-              </div>
-
-              {/* Database & Caching Card */}
-              <div className={`${isDarkMode ? 'bg-slate-700/50' : 'bg-gradient-to-br from-yellow-50 to-amber-50'} rounded-xl p-6 border-2 ${isDarkMode ? 'border-yellow-400/30' : 'border-yellow-400'} hover:border-yellow-500 transition-all duration-300 hover:scale-105 shadow-md`}>
-                <div className="text-5xl mb-4">🗄️</div>
-                <h3 className={`text-xl font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Database & Caching</h3>
-                <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-700'} text-sm`}>
-                  MySQL, MongoDB, Redis, Query Optimization, Indexing, Aggregation Pipelines
-                </p>
-              </div>
-
-              {/* Cloud & DevOps Card */}
-              <div className={`${isDarkMode ? 'bg-slate-700/50' : 'bg-gradient-to-br from-blue-50 to-cyan-50'} rounded-xl p-6 border-2 ${isDarkMode ? 'border-blue-400/30' : 'border-blue-400'} hover:border-blue-500 transition-all duration-300 hover:scale-105 shadow-md`}>
-                <div className="text-5xl mb-4">☁️</div>
-                <h3 className={`text-xl font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Cloud & DevOps</h3>
-                <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-700'} text-sm`}>
-                  AWS (EC2, Lambda, S3, IAM), Docker, Terraform, CI/CD, Infrastructure as Code
-                </p>
-              </div>
-
-              {/* Frontend Card */}
-              <div className={`${isDarkMode ? 'bg-slate-700/50' : 'bg-gradient-to-br from-green-50 to-emerald-50'} rounded-xl p-6 border-2 ${isDarkMode ? 'border-green-400/30' : 'border-green-400'} hover:border-green-500 transition-all duration-300 hover:scale-105 shadow-md md:col-span-2 md:w-1/2 md:mx-auto`}>
-                <div className="text-5xl mb-4">🎨</div>
-                <h3 className={`text-xl font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Frontend</h3>
-                <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-700'} text-sm`}>
-                  React, Next.js, TypeScript, Tailwind CSS, Redux
-                </p>
-              </div>
-            </div>
+            <motion.button
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className={`lg:hidden p-2 rounded-lg ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-gray-100'} transition-colors`}
+            >
+              {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </motion.button>
           </div>
+        </div>
 
-          {/* Resume - Compact & Prominent */}
-          <div id="resume" className={`${isDarkMode ? 'bg-gradient-to-r from-cyan-900/30 to-blue-900/30' : 'bg-gradient-to-r from-orange-100 to-amber-100'} backdrop-blur-sm rounded-2xl p-6 lg:p-8 border ${isDarkMode ? 'border-cyan-500/30' : 'border-orange-300'} shadow-xl`}>
-            <h2 className={`text-2xl lg:text-3xl font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-              Download Resume
-            </h2>
-            <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-4 text-sm lg:text-base`}>
-              Full experience, skills & achievements in PDF format
-            </p>
-            <a
+        {/* Mobile Menu */}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className={`lg:hidden border-t ${isDarkMode ? 'border-white/10 bg-black' : 'border-gray-200 bg-white'}`}
+            >
+              <div className="px-6 py-4 space-y-3">
+                {["About", "Why Me", "Skills", "Experience", "Projects", "Achievements", "Certifications", "Contact"].map((item) => (
+                  <button
+                    key={item}
+                    onClick={() => scrollToSection(item.toLowerCase().replace(" ", "-"))}
+                    className={`block w-full text-left text-lg font-medium py-2 transition-colors ${isDarkMode ? 'text-gray-300 hover:text-blue-400' : 'text-gray-700 hover:text-blue-600'}`}
+                  >
+                    {item}
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.nav>
+
+      {/* Hero Section */}
+      <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
+        {/* Animated Background */}
+        <div className="absolute inset-0 overflow-hidden">
+          <motion.div
+            animate={{
+              backgroundPosition: ["0% 0%", "100% 100%"],
+            }}
+            transition={{
+              duration: 20,
+              repeat: Infinity,
+              repeatType: "reverse",
+            }}
+            className="absolute inset-0 opacity-20"
+            style={{
+              backgroundImage: `radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.4) 0%, transparent 50%),
+                               radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.4) 0%, transparent 50%),
+                               radial-gradient(circle at 40% 20%, rgba(236, 72, 153, 0.4) 0%, transparent 50%)`,
+              backgroundSize: "200% 200%",
+            }}
+          />
+          
+          {/* Light Stream Animation - Left to Right */}
+          <motion.div
+            className="absolute -left-96 top-1/3 w-96 h-96 rounded-full bg-gradient-to-r from-cyan-400 via-blue-500 to-transparent opacity-30 blur-3xl"
+            animate={{ 
+              x: [0, 1400, 0],
+              y: [0, -100, 0]
+            }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          />
+          
+          {/* Light Stream Animation - Right to Left */}
+          <motion.div
+            className="absolute -right-96 bottom-1/4 w-96 h-96 rounded-full bg-gradient-to-l from-purple-500 via-pink-400 to-transparent opacity-30 blur-3xl"
+            animate={{ 
+              x: [-1400, 0, -1400],
+              y: [0, 100, 0]
+            }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          />
+          
+          {/* Floating Orb */}
+          <motion.div
+            className="absolute top-20 right-32 w-32 h-32 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 opacity-20 blur-3xl"
+            animate={{ 
+              y: [0, -40, 0],
+              x: [0, 20, 0],
+              scale: [0.8, 1.2, 0.8]
+            }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </div>
+
+        <motion.div 
+          style={{ opacity: heroOpacity, scale: heroScale }}
+          className="relative z-10 text-center px-6 max-w-5xl"
+        >
+          <motion.h1 
+            className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-bold mb-6 leading-tight"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, delay: 0.2 }}
+          >
+            Sooraj Poojary
+          </motion.h1>
+          
+          <motion.p
+            className="text-xl sm:text-2xl md:text-4xl mb-8 font-light bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.4 }}
+          >
+            Software Engineer @ Carelon Global Solutions
+          </motion.p>
+
+          <motion.p
+            className={`text-base sm:text-lg md:text-xl mb-12 max-w-3xl mx-auto ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.6 }}
+          >
+            Building high-performance backend systems, AI-powered applications, and cloud infrastructure 
+            that power enterprise solutions at scale.
+          </motion.p>
+
+          <motion.div
+            className="flex gap-4 justify-center flex-wrap"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.8 }}
+          >
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => scrollToSection('contact')}
+              className="px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full font-semibold text-white shadow-2xl shadow-blue-500/50"
+            >
+              Get in Touch
+            </motion.button>
+            
+            <motion.a
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               href="/Sooraj_resume.pdf"
               download
-              className={`inline-flex items-center gap-2 ${isDarkMode ? 'bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600' : 'bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700'} text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 shadow-lg`}
+              className={`px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold flex items-center gap-2 ${isDarkMode ? 'bg-white/10 hover:bg-white/20' : 'bg-gray-900 hover:bg-gray-800 text-white'}`}
             >
-              <Download className="w-5 h-5" />
-              Download PDF
-            </a>
+              <Download size={20} />
+              Resume
+            </motion.a>
+          </motion.div>
+
+          {/* Scroll Indicator */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.5, duration: 1 }}
+            className="absolute bottom-8 left-1/2 transform -translate-x-1/2 hidden sm:block"
+          >
+            <motion.div
+              animate={{ y: [0, 10, 0] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              <ChevronDown size={32} className={isDarkMode ? 'text-gray-600' : 'text-gray-400'} />
+            </motion.div>
+          </motion.div>
+        </motion.div>
+      </section>
+
+      {/* Carousel Section */}
+      <section className={`py-16 ${isDarkMode ? 'bg-gradient-to-b from-black to-gray-900' : 'bg-gradient-to-b from-white to-gray-50'}`}>
+        <div className="max-w-4xl mx-auto px-6">
+          <FadeInSection>
+            <div className={`${isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white border-gray-200'} rounded-3xl p-8 border backdrop-blur-xl shadow-2xl`}>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={carouselIndex}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.6 }}
+                  className="min-h-[100px] flex flex-col justify-center"
+                >
+                  <h3 className={`${isDarkMode ? 'text-white' : 'text-slate-900'} font-bold text-2xl mb-3`}>
+                    {carouselSlides[carouselIndex].title}
+                  </h3>
+                  <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-700'} text-lg`}>
+                    {carouselSlides[carouselIndex].desc}
+                  </p>
+                </motion.div>
+              </AnimatePresence>
+
+              <div className="flex justify-center gap-2 mt-6">
+                {carouselSlides.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setCarouselIndex(i)}
+                    className={`transition-all duration-300 ${
+                      i === carouselIndex 
+                        ? 'w-8 h-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500' 
+                        : 'w-4 h-2 rounded-full bg-gray-400/40 hover:bg-gray-400/60'
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+          </FadeInSection>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section id="about" className="py-24 sm:py-32">
+        <div className="max-w-6xl mx-auto px-6">
+          <SectionHeader>
+            <span className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+              About Me
+            </span>
+          </SectionHeader>
+          
+          <FadeInSection>
+            <div className={`${isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white border-gray-200'} rounded-3xl p-8 sm:p-12 border backdrop-blur-xl shadow-2xl`}>
+              <div className="flex items-start gap-6 mb-6">
+                <div className="p-4 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-500 shadow-lg">
+                  <Sparkles className="w-8 h-8 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-2xl sm:text-3xl font-bold mb-4">Professional Summary</h3>
+                  <p className={`text-lg sm:text-xl leading-relaxed ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                    Software Engineer at <span className="font-semibold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">Carelon Global Solutions</span>, 
+                    building scalable cloud systems, <span className="font-medium text-blue-400">LLM-powered platforms</span>, 
+                    and high-performance dashboards that drive real business impact.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </FadeInSection>
+        </div>
+      </section>
+
+      {/* Why Hire Me Section */}
+      <section id="why-me" className={`py-24 sm:py-32 ${isDarkMode ? 'bg-gradient-to-b from-gray-900 to-black' : 'bg-gradient-to-b from-gray-50 to-white'}`}>
+        <div className="max-w-6xl mx-auto px-6">
+          <SectionHeader>
+            <span className="bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 bg-clip-text text-transparent">
+              Why Hire Me?
+            </span>
+          </SectionHeader>
+          
+          <FadeInSection>
+            <div className="max-w-4xl mx-auto">
+              <p className={`text-lg sm:text-xl leading-relaxed text-center ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                Specializing in backend architecture, cloud infrastructure, and AI-powered systems, I design and build 
+                scalable solutions that handle millions of requests. From optimizing database queries to implementing 
+                intelligent agentic workflows with LangChain and RAG pipelines, I focus on creating robust, production-ready 
+                solutions that deliver measurable performance improvements.
+              </p>
+            </div>
+          </FadeInSection>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+            {[
+              { icon: <Code size={32} />, title: "Backend & APIs", skills: "Node.js, Express, FastAPI, Python, RESTful APIs, WebSockets, Microservices", gradient: "from-blue-500 to-cyan-500" },
+              { icon: <Brain size={32} />, title: "AI & Agentic Systems", skills: "LangChain, RAG Pipelines, FAISS, Vector Databases, NL to SQL, Intelligent Agents", gradient: "from-purple-500 to-pink-500" },
+              { icon: <Database size={32} />, title: "Database & Caching", skills: "MySQL, MongoDB, Redis, Query Optimization, Indexing, Aggregation Pipelines", gradient: "from-green-500 to-emerald-500" },
+              { icon: <Cloud size={32} />, title: "Cloud & DevOps", skills: "AWS (EC2, Lambda, S3, IAM), Docker, Terraform, CI/CD, Infrastructure as Code", gradient: "from-orange-500 to-red-500" },
+              { icon: <Palette size={32} />, title: "Frontend Development", skills: "React, Next.js, TypeScript, Tailwind CSS, Redux", gradient: "from-indigo-500 to-blue-500" },
+              { icon: <Rocket size={32} />, title: "Best Practices", skills: "Clean Code, Design Patterns, Testing, Documentation, Code Review, Agile", gradient: "from-yellow-500 to-amber-500" }
+            ].map((item, index) => (
+              <FadeInSection key={item.title} delay={index * 0.03}>
+                <motion.div
+                  whileHover={{ y: -8, scale: 1.02 }}
+                  className={`p-6 sm:p-8 rounded-2xl ${isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white border-gray-200'} border backdrop-blur-sm transition-all cursor-pointer group`}
+                >
+                  <div className={`mb-6 bg-gradient-to-br ${item.gradient} w-16 h-16 rounded-xl flex items-center justify-center text-white group-hover:scale-110 transition-transform shadow-lg`}>
+                    {item.icon}
+                  </div>
+                  <h3 className="text-xl font-bold mb-3">{item.title}</h3>
+                  <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {item.skills}
+                  </p>
+                </motion.div>
+              </FadeInSection>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Skills Section */}
+      <section id="skills" className="py-24 sm:py-32">
+        <div className="max-w-6xl mx-auto px-6">
+          <SectionHeader>
+            <span className="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 bg-clip-text text-transparent">
+              Technical Skills
+            </span>
+          </SectionHeader>
+          
+          <div className="grid gap-8">
+            {[
+              { title: "Languages", items: skills.languages, icon: <Terminal className="w-6 h-6" /> },
+              { title: "Frameworks & Libraries", items: skills.frameworks, icon: <Code className="w-6 h-6" /> },
+              { title: "Cloud & Tools", items: skills.cloud, icon: <Cloud className="w-6 h-6" /> },
+              { title: "AI/ML & Data", items: skills.aiml, icon: <Brain className="w-6 h-6" /> },
+              { title: "Other Expertise", items: skills.other, icon: <Cpu className="w-6 h-6" /> }
+            ].map((category, index) => (
+              <FadeInSection key={category.title} delay={index * 0.03}>
+                <div className={`${isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white border-gray-200'} rounded-2xl p-6 sm:p-8 border backdrop-blur-sm h-full flex flex-col`}>
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="p-2 rounded-lg bg-gradient-to-br from-blue-500 to-purple-500 text-white">
+                      {category.icon}
+                    </div>
+                    <h3 className="text-xl font-bold">{category.title}</h3>
+                  </div>
+                  <div className="flex flex-wrap gap-3 flex-1 content-start">
+                    {category.items.map((skill) => (
+                      <motion.span
+                        key={skill}
+                        whileHover={{ scale: 1.05, y: -2 }}
+                        className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                          isDarkMode 
+                            ? 'bg-slate-700/50 border-slate-600 hover:bg-slate-600 text-gray-200' 
+                            : 'bg-gray-100 border-gray-300 hover:bg-gray-200 text-gray-800'
+                        } border cursor-default`}
+                      >
+                        {skill}
+                      </motion.span>
+                    ))}
+                  </div>
+                </div>
+              </FadeInSection>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Experience Section */}
+      <section id="experience" className={`py-24 sm:py-32 ${isDarkMode ? 'bg-gradient-to-b from-black to-gray-900' : 'bg-gradient-to-b from-white to-gray-50'}`}>
+        <div className="max-w-6xl mx-auto px-6">
+          <SectionHeader>
+            <div className="flex items-center justify-center gap-4">
+              <Zap className="w-12 h-12 text-yellow-500" />
+              <span className="bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 bg-clip-text text-transparent">
+                Experience
+              </span>
+            </div>
+          </SectionHeader>
+          
+          <FadeInSection>
+            <motion.div
+              whileHover={{ x: 8 }}
+              className={`${isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white border-gray-200'} rounded-3xl p-8 sm:p-12 border backdrop-blur-xl shadow-2xl`}
+            >
+              <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
+                <div className="flex items-start gap-4">
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-blue-500 to-purple-500 shadow-lg">
+                    <Code2 className="w-8 h-8 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl sm:text-3xl font-bold mb-2">Software Engineer</h3>
+                    <p className="text-lg sm:text-xl bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent font-semibold">
+                      Carelon Global Solutions
+                    </p>
+                  </div>
+                </div>
+                <span className="px-5 py-2 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold shadow-lg">
+                  Current
+                </span>
+              </div>
+              
+              <div className="space-y-4 mt-8">
+                {[
+                  { color: "blue", text: "Architected LLM-powered Data Catalogue with AI-driven metadata management" },
+                  { color: "purple", text: "Built enterprise dashboards handling real-time analytics for millions of users" },
+                  { color: "pink", text: "Implemented AWS automation reducing infrastructure costs by 40%" },
+                  { color: "green", text: "Designed RAG pipelines and intelligent agents using LangChain and vector databases" },
+                  { color: "orange", text: "Optimized database queries and caching strategies improving performance by 60%" }
+                ].map((achievement, i) => (
+                  <div
+                    key={i}
+                    className="flex gap-4"
+                  >
+                    <span className={`text-${achievement.color}-500 mt-1 text-xl`}>▸</span>
+                    <span className={`text-base sm:text-lg ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                      {achievement.text}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </FadeInSection>
+        </div>
+      </section>
+
+      {/* Projects Section */}
+      <section id="projects" className="py-24 sm:py-32">
+        <div className="max-w-6xl mx-auto px-6">
+          <SectionHeader>
+            <div className="flex items-center justify-center gap-4">
+              <Brain className="w-12 h-12 text-purple-500" />
+              <span className="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 bg-clip-text text-transparent">
+                Featured Projects
+              </span>
+            </div>
+          </SectionHeader>
+          
+          <div className="grid sm:grid-cols-2 gap-6">
+            {projects.map((project, index) => (
+              <FadeInSection key={project.title} delay={index * 0.05}>
+                <motion.div
+                  whileHover={{ y: -8, scale: 1.02 }}
+                  onClick={() => project.link && window.open(project.link, '_blank')}
+                  className={`${isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white border-gray-200'} rounded-2xl p-6 sm:p-8 border backdrop-blur-sm cursor-pointer group transition-all shadow-lg hover:shadow-2xl`}
+                >
+                  <div className={`h-2 rounded-full bg-gradient-to-r ${project.gradient} mb-6 group-hover:h-3 transition-all`} />
+                  
+                  <div className="text-5xl mb-4">{project.emoji}</div>
+                  
+                  <h3 className="text-xl sm:text-2xl font-bold mb-3 group-hover:text-blue-500 transition-colors">
+                    {project.title}
+                  </h3>
+                  
+                  {project.metric && (
+                    <p className="text-2xl sm:text-3xl font-bold mb-4 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+                      {project.metric}
+                    </p>
+                  )}
+                  
+                  <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mb-4`}>
+                    {project.desc}
+                  </p>
+                  
+                  {project.link && (
+                    <div className="flex items-center gap-2 text-blue-500 font-semibold">
+                      <span>View Project</span>
+                      <ExternalLink size={16} />
+                    </div>
+                  )}
+                </motion.div>
+              </FadeInSection>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Achievements Section */}
+      <section id="achievements" className={`py-24 sm:py-32 ${isDarkMode ? 'bg-gradient-to-b from-gray-900 to-black' : 'bg-gradient-to-b from-gray-50 to-white'}`}>
+        <div className="max-w-6xl mx-auto px-6">
+          <SectionHeader>
+            <div className="flex items-center justify-center gap-4">
+              <Trophy className="w-12 h-12 text-yellow-500" />
+              <span className="bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 bg-clip-text text-transparent">
+                Achievements & Awards
+              </span>
+            </div>
+          </SectionHeader>
+          
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { icon: <Globe className="w-10 h-10 text-yellow-400" />, title: "Google Kickstart", value: "Rank 1445", gradient: "from-yellow-500 to-orange-500" },
+              { icon: <Award className="w-10 h-10 text-blue-400" />, title: "Microsoft Azure AI-900", value: "Certified", gradient: "from-blue-500 to-cyan-500" },
+              { icon: <Trophy className="w-10 h-10 text-purple-400" />, title: "Carelon Excellence", value: "5+ Impact Awards", gradient: "from-purple-500 to-pink-500" }
+            ].map((achievement, index) => (
+              <FadeInSection key={achievement.title} delay={index * 0.05}>
+                <motion.div
+                  whileHover={{ y: -8, scale: 1.05 }}
+                  className={`${isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white border-gray-200'} rounded-2xl p-8 border text-center backdrop-blur-sm cursor-pointer transition-all shadow-lg hover:shadow-2xl`}
+                >
+                  <div className={`inline-flex p-4 rounded-2xl bg-gradient-to-br ${achievement.gradient} mb-4 shadow-lg`}>
+                    {achievement.icon}
+                  </div>
+                  <p className={`font-bold text-lg mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                    {achievement.title}
+                  </p>
+                  <p className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+                    {achievement.value}
+                  </p>
+                </motion.div>
+              </FadeInSection>
+            ))}
           </div>
 
-          {/* Portfolio Sections */}
-          <PortfolioSection isDarkMode={isDarkMode} />
-
-          {/* Social Links */}
-          <SocialLinks isDarkMode={isDarkMode} />
+          {/* Hobbies */}
+          <FadeInSection>
+            <div className="mt-16">
+              <div className="flex items-center justify-center gap-3 mb-8">
+                <HeartHandshake className="w-8 h-8 text-pink-500" />
+                <h3 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-pink-500 to-red-500 bg-clip-text text-transparent">
+                  Hobbies & Interests
+                </h3>
+              </div>
+              <div className="flex flex-wrap justify-center gap-3">
+                {["Competitive Coding", "System Design", "AI Experiments", "Tech Blogging", "Open Source"].map((hobby) => (
+                  <motion.span
+                    key={hobby}
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    className={`px-5 py-3 rounded-full text-sm font-medium transition-all ${
+                      isDarkMode 
+                        ? 'bg-slate-700/50 border-slate-600 hover:bg-slate-600 text-gray-200' 
+                        : 'bg-gray-100 border-gray-300 hover:bg-gray-200 text-gray-800'
+                    } border cursor-default`}
+                  >
+                    {hobby}
+                  </motion.span>
+                ))}
+              </div>
+            </div>
+          </FadeInSection>
         </div>
-      </div>
+      </section>
 
-      {/* CSS for animations */}
-      <style jsx>{`
-        @keyframes blob {
-          0% {
-            transform: translate(0px, 0px) scale(1);
-          }
-          33% {
-            transform: translate(30px, -50px) scale(1.1);
-          }
-          66% {
-            transform: translate(-20px, 20px) scale(0.9);
-          }
-          100% {
-            transform: translate(0px, 0px) scale(1);
-          }
-        }
-        .animate-blob {
-          animation: blob 7s infinite;
-        }
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-        .animation-delay-4000 {
-          animation-delay: 4s;
-        }
-      `}</style>
+      {/* Certifications Section */}
+      <section id="certifications" className="py-24 sm:py-32">
+        <div className="max-w-6xl mx-auto px-6">
+          <SectionHeader>
+            <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+              Certifications
+            </span>
+          </SectionHeader>
+          
+          <FadeInSection>
+            <div className="max-w-4xl mx-auto">
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                className={`${isDarkMode ? 'bg-gradient-to-br from-blue-500/10 to-purple-500/10 border-slate-700' : 'bg-gradient-to-br from-blue-50 to-purple-50 border-gray-200'} rounded-3xl p-12 border backdrop-blur-xl text-center shadow-2xl`}
+              >
+                <div className="inline-flex p-6 rounded-3xl bg-gradient-to-br from-blue-500 to-purple-500 mb-6 shadow-2xl">
+                  <Award size={64} className="text-white" />
+                </div>
+                
+                <h3 className="text-3xl sm:text-4xl font-bold mb-4">Professional Certifications</h3>
+                
+                <p className={`text-lg sm:text-xl mb-8 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} max-w-2xl mx-auto`}>
+                  Certified in Azure AI, Cloud Technologies, and Enterprise Solutions
+                </p>
+                
+                <div className="grid sm:grid-cols-3 gap-4 mb-8">
+                  {[
+                    { title: "AI-900", subtitle: "Microsoft Azure AI" },
+                    { title: "Cloud Practitioner", subtitle: "AWS Fundamentals" },
+                    { title: "ML Specializations", subtitle: "Deep Learning & Systems" }
+                  ].map((cert) => (
+                    <div key={cert.title} className={`p-6 rounded-xl ${isDarkMode ? 'bg-slate-800/50' : 'bg-white'} border ${isDarkMode ? 'border-slate-700' : 'border-gray-200'}`}>
+                      <h4 className="font-bold text-lg mb-2">{cert.title}</h4>
+                      <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>{cert.subtitle}</p>
+                    </div>
+                  ))}
+                </div>
+                
+                <motion.a
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  href="/CERTIFICATIONS.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full font-semibold text-white shadow-2xl shadow-blue-500/50"
+                >
+                  <ExternalLink size={20} />
+                  View All Certifications
+                </motion.a>
+              </motion.div>
+            </div>
+          </FadeInSection>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className={`py-24 sm:py-32 ${isDarkMode ? 'bg-gradient-to-b from-black to-gray-900' : 'bg-gradient-to-b from-white to-gray-50'}`}>
+        <div className="max-w-6xl mx-auto px-6">
+          <SectionHeader>
+            <span className="bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 bg-clip-text text-transparent">
+              Let's Connect
+            </span>
+          </SectionHeader>
+          
+          <FadeInSection>
+            <div className="max-w-3xl mx-auto text-center mb-12">
+              <p className={`text-lg sm:text-xl ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                I'm always open to discussing new projects, creative ideas, or opportunities to be part of your visions.
+              </p>
+            </div>
+          </FadeInSection>
+          
+          <FadeInSection>
+            <div className={`${isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white border-gray-200'} rounded-3xl p-8 sm:p-12 border backdrop-blur-xl shadow-2xl max-w-4xl mx-auto`}>
+              <h3 className="text-2xl font-bold mb-8 text-center">Connect With Me</h3>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                {socialLinks.map((link) => (
+                  <motion.a
+                    key={link.name}
+                    href={link.url}
+                    target={link.name !== "Email" ? "_blank" : undefined}
+                    rel={link.name !== "Email" ? "noopener noreferrer" : undefined}
+                    whileHover={{ scale: 1.05, y: -4 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={`flex flex-col items-center justify-center gap-3 p-6 rounded-2xl bg-gradient-to-br ${link.color} text-white shadow-lg hover:shadow-2xl transition-all`}
+                  >
+                    {link.icon}
+                    <span className="font-semibold text-sm">{link.name}</span>
+                  </motion.a>
+                ))}
+              </div>
+
+              <div className="mt-12 pt-8 border-t border-gray-700 text-center">
+                <motion.a
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  href="/Sooraj_resume.pdf"
+                  download
+                  className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full font-semibold text-white shadow-2xl shadow-blue-500/50"
+                >
+                  <FileText size={20} />
+                  Download Full Resume
+                </motion.a>
+              </div>
+            </div>
+          </FadeInSection>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className={`py-12 border-t ${isDarkMode ? 'border-white/10' : 'border-gray-200'}`}>
+        <div className="max-w-6xl mx-auto px-6 text-center">
+          <p className={`${isDarkMode ? 'text-gray-500' : 'text-gray-400'} mb-4`}>
+            © 2026 Sooraj Poojary. Crafted with passion and code.
+          </p>
+          <div className="flex justify-center gap-6">
+            {socialLinks.slice(0, 3).map((link) => (
+              <a
+                key={link.name}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${isDarkMode ? 'text-gray-600 hover:text-white' : 'text-gray-400 hover:text-gray-900'} transition-colors`}
+              >
+                {link.icon}
+              </a>
+            ))}
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

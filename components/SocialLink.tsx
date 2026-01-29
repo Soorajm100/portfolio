@@ -6,30 +6,31 @@ export default function SocialLinks({ isDarkMode }: { isDarkMode: boolean }) {
       name: "GitHub",
       url: "https://github.com/Soorajm100",
       icon: <Github className="w-5 h-5" />,
-      color: isDarkMode ? "from-gray-600 to-gray-800" : "from-gray-700 to-gray-900"
+      // use solid background classes instead of gradients
+      bg: isDarkMode ? 'bg-gray-700 text-white hover:bg-gray-600' : 'bg-gray-100 text-slate-900 hover:bg-gray-200'
     },
     {
       name: "LinkedIn",
       url: "https://www.linkedin.com/in/sooraj123/",
       icon: <Linkedin className="w-5 h-5" />,
-      color: isDarkMode ? "from-blue-600 to-blue-800" : "from-blue-600 to-blue-800"
+      bg: isDarkMode ? 'bg-blue-700 text-white hover:bg-blue-600' : 'bg-blue-50 text-blue-700 hover:bg-blue-100'
     },
     {
       name: "LeetCode",
       url: "https://leetcode.com/u/unknow2001/",
       icon: <Code2 className="w-5 h-5" />,
-      color: isDarkMode ? "from-orange-500 to-orange-700" : "from-orange-600 to-orange-800"
+      bg: isDarkMode ? 'bg-orange-600 text-white hover:bg-orange-500' : 'bg-orange-50 text-orange-700 hover:bg-orange-100'
     },
     {
       name: "Resume",
       url:  "/Sooraj_resume.pdf" ,
       icon: <FileText className="w-5 h-5" />,
-      color: isDarkMode ? "from-purple-600 to-purple-800" : "from-purple-600 to-purple-800"
+      bg: isDarkMode ? 'bg-purple-700 text-white hover:bg-purple-600' : 'bg-purple-50 text-purple-700 hover:bg-purple-100'
     }
   ];
 
   return (
-    <div className={`${isDarkMode ? 'bg-slate-800/50' : 'bg-white'} backdrop-blur-sm rounded-2xl p-6 lg:p-8 border ${isDarkMode ? 'border-white/10' : 'border-gray-200'} shadow-xl`}>
+    <div className={`${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-gray-200'} backdrop-blur-sm rounded-2xl p-6 lg:p-8 border shadow-lg hover:shadow-xl transition-shadow duration-300`}>
       <h2 className={`text-2xl font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
         Connect With Me
       </h2>
@@ -40,10 +41,10 @@ export default function SocialLinks({ isDarkMode }: { isDarkMode: boolean }) {
             href={link.url}
             target="_blank"
             rel="noopener noreferrer"
-            className={`flex flex-col items-center justify-center gap-3 p-5 rounded-xl bg-gradient-to-br ${link.color} text-white hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl`}
+            className={`flex flex-col items-center justify-center gap-3 p-5 rounded-xl ${link.bg} hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl`}
           >
             {link.icon}
-            <span className="font-semibold text-sm">{link.name}</span>
+            <span className={`font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{link.name}</span>
           </a>
         ))}
       </div>
