@@ -27,7 +27,10 @@ import {
   Globe,
   Code2,
   FileText,
-  Rocket
+  Rocket,
+  Flame,
+  Activity,
+  CheckCircle2
 } from "lucide-react";
 
 export default function Portfolio() {
@@ -82,7 +85,7 @@ export default function Portfolio() {
 
   const projects = [
     {
-      emoji: "🔥",
+      icon: <Flame className="w-12 h-12" />,
       title: "ML Heat Transfer Prediction",
       metric: "99.2% Accuracy",
       desc: "Advanced neural network for thermal dynamics modeling with state-of-the-art performance in predicting heat transfer coefficients",
@@ -90,7 +93,7 @@ export default function Portfolio() {
       gradient: "from-red-500 to-orange-500"
     },
     {
-      emoji: "🚑",
+      icon: <Activity className="w-12 h-12" />,
       title: "Emergency Response System",
       desc: "Real-time coordination platform for crisis management with live tracking, resource allocation, and intelligent routing algorithms",
       link: "https://medical-frontend-gamma-three.vercel.app/",
@@ -121,7 +124,7 @@ export default function Portfolio() {
       name: "Email",
       url: "mailto:sooraj.poojary@example.com",
       icon: <Mail className="w-6 h-6" />,
-      color: "from-purple-600 to-purple-700"
+      color: "from-blue-600 to-blue-700"
     }
   ];
 
@@ -164,7 +167,7 @@ export default function Portfolio() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <motion.div 
             whileHover={{ scale: 1.05 }}
-            className="text-2xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent cursor-pointer"
+            className="text-2xl font-bold text-blue-500 cursor-pointer font-semibold"
             onClick={() => scrollToSection('hero')}
           >
             SP
@@ -262,7 +265,7 @@ export default function Portfolio() {
           
           {/* Light Stream Animation - Right to Left */}
           <motion.div
-            className="absolute -right-96 bottom-1/4 w-96 h-96 rounded-full bg-gradient-to-l from-purple-500 via-pink-400 to-transparent opacity-30 blur-3xl"
+            className="absolute -right-96 bottom-1/4 w-96 h-96 rounded-full bg-gradient-to-l from-blue-600 via-cyan-400 to-transparent opacity-25 blur-3xl"
             animate={{ 
               x: [-1400, 0, -1400],
               y: [0, 100, 0]
@@ -272,7 +275,7 @@ export default function Portfolio() {
           
           {/* Floating Orb */}
           <motion.div
-            className="absolute top-20 right-32 w-32 h-32 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 opacity-20 blur-3xl"
+            className="absolute top-20 right-32 w-32 h-32 rounded-full bg-blue-500 opacity-15 blur-3xl"
             animate={{ 
               y: [0, -40, 0],
               x: [0, 20, 0],
@@ -296,7 +299,7 @@ export default function Portfolio() {
           </motion.h1>
           
           <motion.p
-            className="text-xl sm:text-2xl md:text-4xl mb-8 font-light bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"
+            className="text-xl sm:text-2xl md:text-4xl mb-8 font-light text-gray-300"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.4 }}
@@ -324,7 +327,7 @@ export default function Portfolio() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => scrollToSection('contact')}
-              className="px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full font-semibold text-white shadow-2xl shadow-blue-500/50"
+              className="px-6 sm:px-8 py-3 sm:py-4 bg-blue-600 hover:bg-blue-700 rounded-full font-semibold text-white shadow-2xl shadow-blue-500/50 transition-all"
             >
               Get in Touch
             </motion.button>
@@ -388,7 +391,7 @@ export default function Portfolio() {
                     onClick={() => setCarouselIndex(i)}
                     className={`transition-all duration-300 ${
                       i === carouselIndex 
-                        ? 'w-8 h-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500' 
+                        ? 'w-8 h-2 rounded-full bg-blue-600' 
                         : 'w-4 h-2 rounded-full bg-gray-400/40 hover:bg-gray-400/60'
                     }`}
                   />
@@ -403,7 +406,7 @@ export default function Portfolio() {
       <section id="about" className="py-24 sm:py-32">
         <div className="max-w-6xl mx-auto px-6">
           <SectionHeader>
-            <span className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+            <span className="text-white">
               About Me
             </span>
           </SectionHeader>
@@ -411,13 +414,13 @@ export default function Portfolio() {
           <FadeInSection>
             <div className={`${isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white border-gray-200'} rounded-3xl p-8 sm:p-12 border backdrop-blur-xl shadow-2xl`}>
               <div className="flex items-start gap-6 mb-6">
-                <div className="p-4 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-500 shadow-lg">
+                <div className="p-4 rounded-2xl bg-blue-600 shadow-lg">
                   <Sparkles className="w-8 h-8 text-white" />
                 </div>
                 <div>
                   <h3 className="text-2xl sm:text-3xl font-bold mb-4">Professional Summary</h3>
                   <p className={`text-lg sm:text-xl leading-relaxed ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                    Software Engineer at <span className="font-semibold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">Carelon Global Solutions</span>, 
+                    Software Engineer at <span className="font-semibold text-blue-400">Carelon Global Solutions</span>, 
                     building scalable cloud systems, <span className="font-medium text-blue-400">LLM-powered platforms</span>, 
                     and high-performance dashboards that drive real business impact.
                   </p>
@@ -432,7 +435,7 @@ export default function Portfolio() {
       <section id="why-me" className={`py-24 sm:py-32 ${isDarkMode ? 'bg-gradient-to-b from-gray-900 to-black' : 'bg-gradient-to-b from-gray-50 to-white'}`}>
         <div className="max-w-6xl mx-auto px-6">
           <SectionHeader>
-            <span className="bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 bg-clip-text text-transparent">
+            <span className="text-white">
               Why Hire Me?
             </span>
           </SectionHeader>
@@ -451,7 +454,7 @@ export default function Portfolio() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
             {[
               { icon: <Code size={32} />, title: "Backend & APIs", skills: "Node.js, Express, FastAPI, Python, RESTful APIs, WebSockets, Microservices", gradient: "from-blue-500 to-cyan-500" },
-              { icon: <Brain size={32} />, title: "AI & Agentic Systems", skills: "LangChain, RAG Pipelines, FAISS, Vector Databases, NL to SQL, Intelligent Agents", gradient: "from-purple-500 to-pink-500" },
+              { icon: <Brain size={32} />, title: "AI & Agentic Systems", skills: "LangChain, RAG Pipelines, FAISS, Vector Databases, NL to SQL, Intelligent Agents", gradient: "from-blue-500 to-cyan-500" },
               { icon: <Database size={32} />, title: "Database & Caching", skills: "MySQL, MongoDB, Redis, Query Optimization, Indexing, Aggregation Pipelines", gradient: "from-green-500 to-emerald-500" },
               { icon: <Cloud size={32} />, title: "Cloud & DevOps", skills: "AWS (EC2, Lambda, S3, IAM), Docker, Terraform, CI/CD, Infrastructure as Code", gradient: "from-orange-500 to-red-500" },
               { icon: <Palette size={32} />, title: "Frontend Development", skills: "React, Next.js, TypeScript, Tailwind CSS, Redux", gradient: "from-indigo-500 to-blue-500" },
@@ -480,7 +483,7 @@ export default function Portfolio() {
       <section id="skills" className="py-24 sm:py-32">
         <div className="max-w-6xl mx-auto px-6">
           <SectionHeader>
-            <span className="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 bg-clip-text text-transparent">
+            <span className="text-white">
               Technical Skills
             </span>
           </SectionHeader>
@@ -496,7 +499,7 @@ export default function Portfolio() {
               <FadeInSection key={category.title} delay={index * 0.03}>
                 <div className={`${isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white border-gray-200'} rounded-2xl p-6 sm:p-8 border backdrop-blur-sm h-full flex flex-col`}>
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="p-2 rounded-lg bg-gradient-to-br from-blue-500 to-purple-500 text-white">
+                    <div className="p-2 rounded-lg bg-blue-600 text-white">
                       {category.icon}
                     </div>
                     <h3 className="text-xl font-bold">{category.title}</h3>
@@ -529,7 +532,7 @@ export default function Portfolio() {
           <SectionHeader>
             <div className="flex items-center justify-center gap-4">
               <Zap className="w-12 h-12 text-yellow-500" />
-              <span className="bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 bg-clip-text text-transparent">
+              <span className="text-white">
                 Experience
               </span>
             </div>
@@ -542,12 +545,12 @@ export default function Portfolio() {
             >
               <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
                 <div className="flex items-start gap-4">
-                  <div className="p-3 rounded-xl bg-gradient-to-br from-blue-500 to-purple-500 shadow-lg">
+                  <div className="p-3 rounded-xl bg-blue-600 shadow-lg">
                     <Code2 className="w-8 h-8 text-white" />
                   </div>
                   <div>
                     <h3 className="text-2xl sm:text-3xl font-bold mb-2">Software Engineer</h3>
-                    <p className="text-lg sm:text-xl bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent font-semibold">
+                    <p className="text-lg sm:text-xl text-blue-400 font-semibold">
                       Carelon Global Solutions
                     </p>
                   </div>
@@ -569,7 +572,7 @@ export default function Portfolio() {
                     key={i}
                     className="flex gap-4"
                   >
-                    <span className={`text-${achievement.color}-500 mt-1 text-xl`}>▸</span>
+                    <CheckCircle2 className={`text-${achievement.color}-500 flex-shrink-0`} size={20} />
                     <span className={`text-base sm:text-lg ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                       {achievement.text}
                     </span>
@@ -587,7 +590,7 @@ export default function Portfolio() {
           <SectionHeader>
             <div className="flex items-center justify-center gap-4">
               <Brain className="w-12 h-12 text-purple-500" />
-              <span className="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 bg-clip-text text-transparent">
+              <span className="text-white">
                 Featured Projects
               </span>
             </div>
@@ -603,14 +606,16 @@ export default function Portfolio() {
                 >
                   <div className={`h-2 rounded-full bg-gradient-to-r ${project.gradient} mb-6 group-hover:h-3 transition-all`} />
                   
-                  <div className="text-5xl mb-4">{project.emoji}</div>
+                  <div className="inline-flex p-4 rounded-2xl bg-gradient-to-br from-red-500/20 to-orange-500/20 mb-4 text-red-500">
+                    {project.icon}
+                  </div>
                   
                   <h3 className="text-xl sm:text-2xl font-bold mb-3 group-hover:text-blue-500 transition-colors">
                     {project.title}
                   </h3>
                   
                   {project.metric && (
-                    <p className="text-2xl sm:text-3xl font-bold mb-4 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+                    <p className="text-2xl sm:text-3xl font-bold mb-4 text-blue-400">
                       {project.metric}
                     </p>
                   )}
@@ -638,7 +643,7 @@ export default function Portfolio() {
           <SectionHeader>
             <div className="flex items-center justify-center gap-4">
               <Trophy className="w-12 h-12 text-yellow-500" />
-              <span className="bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 bg-clip-text text-transparent">
+              <span className="text-white">
                 Achievements & Awards
               </span>
             </div>
@@ -648,7 +653,7 @@ export default function Portfolio() {
             {[
               { icon: <Globe className="w-10 h-10 text-yellow-400" />, title: "Google Kickstart", value: "Rank 1445", gradient: "from-yellow-500 to-orange-500" },
               { icon: <Award className="w-10 h-10 text-blue-400" />, title: "Microsoft Azure AI-900", value: "Certified", gradient: "from-blue-500 to-cyan-500" },
-              { icon: <Trophy className="w-10 h-10 text-purple-400" />, title: "Carelon Excellence", value: "5+ Impact Awards", gradient: "from-purple-500 to-pink-500" }
+              { icon: <Trophy className="w-10 h-10 text-yellow-400" />, title: "Carelon Excellence", value: "5+ Impact Awards", gradient: "from-blue-500 to-cyan-500" }
             ].map((achievement, index) => (
               <FadeInSection key={achievement.title} delay={index * 0.05}>
                 <motion.div
@@ -661,7 +666,7 @@ export default function Portfolio() {
                   <p className={`font-bold text-lg mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                     {achievement.title}
                   </p>
-                  <p className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+                  <p className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
                     {achievement.value}
                   </p>
                 </motion.div>
@@ -674,7 +679,7 @@ export default function Portfolio() {
             <div className="mt-16">
               <div className="flex items-center justify-center gap-3 mb-8">
                 <HeartHandshake className="w-8 h-8 text-pink-500" />
-                <h3 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-pink-500 to-red-500 bg-clip-text text-transparent">
+                <h3 className="text-2xl sm:text-3xl font-bold text-white">
                   Hobbies & Interests
                 </h3>
               </div>
@@ -702,7 +707,7 @@ export default function Portfolio() {
       <section id="certifications" className="py-24 sm:py-32">
         <div className="max-w-6xl mx-auto px-6">
           <SectionHeader>
-            <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+            <span className="text-white">
               Certifications
             </span>
           </SectionHeader>
@@ -711,7 +716,7 @@ export default function Portfolio() {
             <div className="max-w-4xl mx-auto">
               <motion.div
                 whileHover={{ scale: 1.02 }}
-                className={`${isDarkMode ? 'bg-gradient-to-br from-blue-500/10 to-purple-500/10 border-slate-700' : 'bg-gradient-to-br from-blue-50 to-purple-50 border-gray-200'} rounded-3xl p-12 border backdrop-blur-xl text-center shadow-2xl`}
+                className={`${isDarkMode ? 'bg-blue-950/30 border-slate-700' : 'bg-blue-50 border-gray-200'} rounded-3xl p-12 border backdrop-blur-xl text-center shadow-2xl`}
               >
                 <div className="inline-flex p-6 rounded-3xl bg-gradient-to-br from-blue-500 to-purple-500 mb-6 shadow-2xl">
                   <Award size={64} className="text-white" />
@@ -757,7 +762,7 @@ export default function Portfolio() {
       <section id="contact" className={`py-24 sm:py-32 ${isDarkMode ? 'bg-gradient-to-b from-black to-gray-900' : 'bg-gradient-to-b from-white to-gray-50'}`}>
         <div className="max-w-6xl mx-auto px-6">
           <SectionHeader>
-            <span className="bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 bg-clip-text text-transparent">
+            <span className="text-white">
               Let's Connect
             </span>
           </SectionHeader>
